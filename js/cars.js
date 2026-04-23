@@ -9,7 +9,7 @@ const cars = [
     seats: "5",
     fuel: "Petrol",
     speed: "155 mph",
-    src: "images/BMW X5.jpg"
+    src: "../assets/images/BMW X5.jpg"
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const cars = [
     seats: "5",
     fuel: "Petrol",
     speed: "130 mph",
-    src: "images/Audi A4.jpg"
+    src: "../assets/images/Audi A4.jpg"
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const cars = [
     seats: "5",
     fuel: "Diesel",
     speed: "112 mph",
-    src: "images/jeep wrangler.jpg"
+    src: "../assets/images/jeep wrangler.jpg"
   },
   {
     id: 4,
@@ -45,7 +45,7 @@ const cars = [
     seats: "2",
     fuel: "Petrol",
     speed: "182 mph",
-    src: "images/Porsche 911.avif"
+    src: "../assets/images/Porsche 911.avif"
   },
   {
     id: 5,
@@ -57,7 +57,7 @@ const cars = [
     seats: "5",
     fuel: "Battery",
     speed: "140 mph",
-    src: "images/tesla model 3.jpg"
+    src: "../assets/images/tesla model 3.jpg"
   },
   {
     id: 6,
@@ -69,7 +69,7 @@ const cars = [
     seats: "2",
     fuel: "Diesel",
     speed: "400 mph",
-    src: "images/aston martini vintage.webp"
+    src: "../assets/images/aston martini vintage.webp"
   },
   {
     id: 7,
@@ -81,7 +81,7 @@ const cars = [
     seats: "2",
     fuel: "Diesel",
     speed: "350 mph",
-    src: "images/mazda-mx5.jpg"
+    src: "../assets/images/mazda-mx5.jpg"
   },
   {
     id: 8,
@@ -93,7 +93,7 @@ const cars = [
     seats: "2",
     fuel: "Diesel",
     speed: "380 mph",
-    src: "images/corvette c8.jpg"
+    src: "../assets/images/corvette c8.jpg"
   },
   {
     id: 9,
@@ -105,7 +105,7 @@ const cars = [
     seats: "4",
     fuel: "Diesel",
     speed: "280 mph",
-    src: "images/BMW m3.jpg"
+    src: "../assets/images/BMW m3.jpg"
   },
   {
     id: 10,
@@ -117,7 +117,7 @@ const cars = [
     seats: "4",
     fuel: "lethium battery",
     speed: "240 Min Range",
-    src: "images/kia EV6.jpg"
+    src: "../assets/images/kia EV6.jpg"
   },
   {
     id: 11,
@@ -129,7 +129,7 @@ const cars = [
     seats: "4",
     fuel: "Lethium R",
     speed: "150 Min.Range",
-    src: "images/Tesla model Y-.webp"
+    src: "../assets/images/Tesla model Y-.webp"
   },
   {
     id: 12,
@@ -141,7 +141,7 @@ const cars = [
     seats: "2",
     fuel: "Lithium battery",
     speed: "275 min. Range",
-    src: "images/Volvo EX30.webp"
+    src: "../assets/images/Volvo EX30.webp"
   },
   {
     id: 13,
@@ -153,7 +153,7 @@ const cars = [
     seats: "6",
     fuel: "Murcury battery",
     speed: "130 mph",
-    src: "images/Hyundai ioniq-5.png"
+    src: "../assets/images/Hyundai ioniq-5.png"
   },
   {
     id: 14,
@@ -165,7 +165,7 @@ const cars = [
     seats: "7",
     fuel: "Diesel",
     speed: "150 mph",
-    src: "images/land rover def.jpg"
+    src: "../assets/images/land rover def.jpg"
   },
   {
     id: 15,
@@ -177,7 +177,7 @@ const cars = [
     seats: "6",
     fuel: "Diesel",
     speed: "130 mph",
-    src: "images/ford Bronco.webp"
+    src: "../assets/images/ford Bronco.webp"
   },
   {
     id: 16,
@@ -189,7 +189,7 @@ const cars = [
     seats: "6",
     fuel: "Diesel",
     speed: "110 mph",
-    src: "images/Toyota 4runner.avif"
+    src: "../assets/images/Toyota 4runner.avif"
   },
   {
     id: 17,
@@ -201,7 +201,7 @@ const cars = [
     seats: "6",
     fuel: "Diesel",
     speed: "130 mph",
-    src: "images/Toyota RAV4.webp"
+    src: "../assets/images/Toyota RAV4.webp"
   },
   {
     id: 18,
@@ -213,7 +213,7 @@ const cars = [
     seats: "7",
     fuel: " Diesel",
     speed: "130 mph",
-    src: "images/ford explorer.jpg"
+    src: "../assets/images/ford explorer.jpg"
   },
   {
     id: 19,
@@ -225,7 +225,7 @@ const cars = [
     seats: "3 Row seat",
     fuel: "Diesel",
     speed: "130 mph",
-    src: "images/kia sorento.jpg"
+    src: "../assets/images/kia sorento.jpg"
   },
   {
     id: 20,
@@ -237,7 +237,7 @@ const cars = [
     seats: "4",
     fuel: "Diesel",
     speed: "130 mph",
-    src: "images/BMW 3 series.webp"
+    src: "../assets/images/BMW 3 series.webp"
   },
   {
     id: 21,
@@ -249,7 +249,7 @@ const cars = [
     seats: "4",
     fuel: "Petrol",
     speed: "130 mph",
-    src: "images/Toyota corolla.jpg"
+    src: "../assets/images/Toyota corolla.jpg"
   }
 
 ];
