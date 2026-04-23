@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Car - CarRental</title>
+  <link rel="stylesheet" href="../css/cars.css">
+  <link rel="stylesheet" href="../css/cookie.css">
+
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">CarRental</div>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cars.html" class="active">Cars</a></li>
+      <li><a href="about.html">About Us</a></li>
+      
+      <li><a href="receipt.html">My Bookings</a></li>
+    </ul>
+
+    <button class="nav-btn" onclick="location.href='cars.html'">Cars</button>
+  </nav>
+
+  <div class="container">
+    <div class="booking-card">
+      <h2>Book Your Car</h2>
+
+      <div id="selectedCarInfo"></div>
+
+      <form id="bookingForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Enter your full name">
+          <small class="error" id="nameError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Home Address</label>
+          <textarea id="address" placeholder="Enter your address"></textarea>
+          <small class="error" id="addressError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="text" id="email" placeholder="Enter your email">
+          <small class="error" id="emailError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="text" id="phone" placeholder="Enter your phone number">
+          <small class="error" id="phoneError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="fromDate">From Date</label>
+          <input type="date" id="fromDate">
+          <small class="error" id="fromDateError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="toDate">To Date</label>
+          <input type="date" id="toDate">
+          <small class="error" id="toDateError"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="paymentMethod">Payment Method</label>
+          <select id="paymentMethod">
+            <option value="">Select payment method</option>
+            <option value="cash">Cash</option>
+            <option value="card">Card</option>
+          </select>
+          <small class="error" id="paymentMethodError"></small>
+        </div>
+
+        <div id="cardFields" style="display:none;">
+          <div class="form-group">
+            <label for="cardNumber">Card Number</label>
+            <input type="text" id="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456">
+            <small class="error" id="cardNumberError"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="cardName">Name on Card</label>
+            <input type="text" id="cardName" placeholder="Enter name on card">
+            <small class="error" id="cardNameError"></small>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="expiry">Expiry Date</label>
+              <input type="text" id="expiry" maxlength="5" placeholder="MM/YY">
+              <small class="error" id="expiryError"></small>
+            </div>
+
+            <div class="form-group half">
+              <label for="cvc">CVC</label>
+              <input type="text" id="cvc" maxlength="4" placeholder="123">
+              <small class="error" id="cvcError"></small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="billingAddress">Billing Address</label>
+            <textarea id="billingAddress" placeholder="Enter card billing address"></textarea>
+            <small class="error" id="billingAddressError"></small>
+          </div>
+        </div>
+
+        <div class="detail-buttons">
+          <button type="button" class="back-btn" onclick="history.back()">Back</button>
+          <button type="submit" class="book-btn">Confirm Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- COOKIE POPUP -->
+  <div id="cookie-popup">
+    <div class="cookie-box">
+      <h3>We value your privacy</h3>
+
+      <p>
+        We use cookies to improve your browsing experience,
+        personalize content, and analyze traffic.
+      </p>
+
+      <div class="cookie-buttons">
+        <button id="accept-cookies">Accept</button>
+        <button id="decline-cookies">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const car = JSON.parse(localStorage.getItem("selectedCar"));
+    const selectedCarInfo = document.getElementById("selectedCarInfo");
+    const paymentMethod = document.getElementById("paymentMethod");
+    const cardFields = document.getElementById("cardFields");
+
+    if (car) {
+      selectedCarInfo.innerHTML = `
+        <div class="selected-car-box">
+          <img src="${car.src}" alt="${car.name}">
+          <h3>${car.name}</h3>
+          <p><strong>Price per day:</strong> £${car.price}</p>
+          <p><strong>Service charge per day:</strong> £20</p>
+        </div>
+      `;
+    } else {
+      selectedCarInfo.innerHTML = `<p>No car selected.</p>`;
+    }
+
+    paymentMethod.addEventListener("change", function () {
+      cardFields.style.display = paymentMethod.value === "card" ? "block" : "none";
+    });
+
+    document.getElementById("cardNumber").addEventListener("input", function () {
+      let value = this.value.replace(/\D/g, "").substring(0, 16);
+      let parts = value.match(/.{1,4}/g);
+      this.value = parts ? parts.join(" ") : "";
+    });
+
+    document.getElementById("expiry").addEventListener("input", function () {
+      let value = this.value.replace(/\D/g, "").substring(0, 4);
+      if (value.length > 2) {
+        value = value.substring(0, 2) + "/" + value.substring(2);
+      }
+      this.value = value;
+    });
+
+    document.getElementById("cvc").addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, "").substring(0, 4);
+    });
+
+    function generateBookingId() {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let result = "";
+      for (let i = 0; i < 10; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    function formatBookingDate() {
+      return new Date().toLocaleDateString("en-GB");
+    }
+
+    function isValidExpiry(expiry) {
+      if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) return false;
+
+      const parts = expiry.split("/");
+      const month = parseInt(parts[0], 10);
+      const year = 2000 + parseInt(parts[1], 10);
+
+      const now = new Date();
+      const currentMonth = now.getMonth() + 1;
+      const currentYear = now.getFullYear();
+
+      if (year < currentYear) return false;
+      if (year === currentYear && month < currentMonth) return false;
+
+      return true;
+    }
+
+    const bookingForm = document.getElementById("bookingForm");
+
+    bookingForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      document.querySelectorAll(".error").forEach(function(error) {
+        error.textContent = "";
+      });
+
+      let isValid = true;
+
+      const name = document.getElementById("name").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const fromDate = document.getElementById("fromDate").value;
+      const toDate = document.getElementById("toDate").value;
+      const selectedPaymentMethod = document.getElementById("paymentMethod").value;
+
+      const cardNumber = document.getElementById("cardNumber").value.trim();
+      const cardName = document.getElementById("cardName").value.trim();
+      const expiry = document.getElementById("expiry").value.trim();
+      const cvc = document.getElementById("cvc").value.trim();
+      const billingAddress = document.getElementById("billingAddress").value.trim();
+
+      const cleanCardNumber = cardNumber.replace(/\s/g, "");
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phonePattern = /^[0-9]{10,15}$/;
+      const cardPattern = /^[0-9]{16}$/;
+      const cvcPattern = /^[0-9]{3,4}$/;
+
+      if (name === "") {
+        document.getElementById("nameError").textContent = "Name is required";
+        isValid = false;
+      }
+
+      if (address === "") {
+        document.getElementById("addressError").textContent = "Address is required";
+        isValid = false;
+      }
+
+      if (email === "") {
+        document.getElementById("emailError").textContent = "Email is required";
+        isValid = false;
+      } else if (!emailPattern.test(email)) {
+        document.getElementById("emailError").textContent = "Enter a valid email";
+        isValid = false;
+      }
+
+      if (phone === "") {
+        document.getElementById("phoneError").textContent = "Phone number is required";
+        isValid = false;
+      } else if (!phonePattern.test(phone)) {
+        document.getElementById("phoneError").textContent = "Enter a valid phone number";
+        isValid = false;
+      }
+
+      if (fromDate === "") {
+        document.getElementById("fromDateError").textContent = "From date is required";
+        isValid = false;
+      }
+
+      if (toDate === "") {
+        document.getElementById("toDateError").textContent = "To date is required";
+        isValid = false;
+      }
+
+      if (selectedPaymentMethod === "") {
+        document.getElementById("paymentMethodError").textContent = "Select a payment method";
+        isValid = false;
+      }
+
+      if (selectedPaymentMethod === "card") {
+        if (cleanCardNumber === "") {
+          document.getElementById("cardNumberError").textContent = "Card number is required";
+          isValid = false;
+        } else if (!cardPattern.test(cleanCardNumber)) {
+          document.getElementById("cardNumberError").textContent = "Enter a valid 16-digit card number";
+          isValid = false;
+        }
+
+        if (cardName === "") {
+          document.getElementById("cardNameError").textContent = "Name on card is required";
+          isValid = false;
+        }
+
+        if (expiry === "") {
+          document.getElementById("expiryError").textContent = "Expiry date is required";
+          isValid = false;
+        } else if (!isValidExpiry(expiry)) {
+          document.getElementById("expiryError").textContent = "Enter a valid future expiry date";
+          isValid = false;
+        }
+
+        if (cvc === "") {
+          document.getElementById("cvcError").textContent = "CVC is required";
+          isValid = false;
+        } else if (!cvcPattern.test(cvc)) {
+          document.getElementById("cvcError").textContent = "Enter a valid CVC";
+          isValid = false;
+        }
+
+        if (billingAddress === "") {
+          document.getElementById("billingAddressError").textContent = "Billing address is required";
+          isValid = false;
+        }
+      }
+
+      let from, to, today;
+
+      if (fromDate !== "" && toDate !== "") {
+        from = new Date(fromDate);
+        to = new Date(toDate);
+        today = new Date();
+
+        from.setHours(0, 0, 0, 0);
+        to.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
+
+        if (from < today) {
+          document.getElementById("fromDateError").textContent = "From date cannot be in the past";
+          isValid = false;
+        }
+
+        if (to < from) {
+          document.getElementById("toDateError").textContent = "To date must be after or same as from date";
+          isValid = false;
+        }
+      }
+
+      if (isValid && car) {
+        const oneDay = 1000 * 60 * 60 * 24;
+        const numberOfDays = Math.floor((to - from) / oneDay) + 1;
+
+        const serviceChargePerDay = 20;
+        const dailyTotal = car.price + serviceChargePerDay;
+        const totalCost = dailyTotal * numberOfDays;
+
+        let maskedPayment = "Cash";
+        if (selectedPaymentMethod === "card") {
+          const lastTwoDigits = cleanCardNumber.slice(-2);
+          maskedPayment = "Card ending in **" + lastTwoDigits;
+        }
+
+        const bookingData = {
+          bookingId: generateBookingId(),
+          bookingDate: formatBookingDate(),
+          customerName: name,
+          address: address,
+          email: email,
+          phone: phone,
+          fromDate: fromDate,
+          toDate: toDate,
+          carName: car.name,
+          paymentInfo: maskedPayment,
+          totalCost: totalCost
+        };
+
+        localStorage.setItem("bookingData", JSON.stringify(bookingData));
+        window.location.href = "receipt.html";
+      }
+    });
+  </script>
+  <script src="../js/script.js" defer></script>
+
+</body>
+</html>
